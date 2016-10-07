@@ -47,15 +47,15 @@ public abstract class OpstaSistemskaOperacija {
         signal = DatabaseBroker.getInstance().poveziSeSaBazom();
         
         //http://docs.jboss.org/hibernate/orm/5.2/topical/html_single/bootstrap/NativeBootstrapping.html
-        StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
+/*        StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
         	.configure( "org/hibernate/example/MyCfg.xml" )
         	.build();
 
 		Metadata metadata = new MetadataSources( standardRegistry )
 		        .addAnnotatedClass( Proizvod.class )
 		        .addAnnotatedClassName( "org.hibernate.example.Customer" )
-		        .addResource( "org/hibernate/example/Order.hbm.xml" )
-		        .addResource( "org/hibernate/example/Product.orm.xml" )
+//		        .addResource( "org/hibernate/example/Order.hbm.xml" )
+//		        .addResource( "org/hibernate/example/Product.orm.xml" )
 		        .getMetadataBuilder()
 		        .applyImplicitNamingStrategy( ImplicitNamingStrategyJpaCompliantImpl.INSTANCE )
 		        .build();
@@ -63,7 +63,7 @@ public abstract class OpstaSistemskaOperacija {
 //		SessionFactory sessionFactory = metadata.getSessionFactoryBuilder()
 //		        .applyBeanManager( getBeanManagerFromSomewhere() )
 //		        .build();
-        
+*/        
     }
 
     public boolean proveriUspesnostOpsta(int sig) {

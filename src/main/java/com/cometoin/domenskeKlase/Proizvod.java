@@ -11,10 +11,13 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.persistence.Entity;
+
 /**
  *
  * @author user
  */
+@Entity
 public class Proizvod implements OpstiDomenskiObjekat,Serializable{
 
     private int sifraProizvoda;

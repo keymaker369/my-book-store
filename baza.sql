@@ -15,6 +15,18 @@
 --   Sequences: 1 
 --   Tables: 5          Columns: 24         Constraints: 9      
 
+-- create user mybookstore identified by mybookstore;
+
+-- GRANT CONNECT,RESOURCE,DBA TO mybookstore;
+
+-- GRANT CREATE SESSION TO mybookstore;
+
+-- GRANT ANY PRIVILEGE TO mybookstore;
+
+-- GRANT UNLIMITED TABLESPACE TO mybookstore;
+
+-- GRANT SELECT,UPDATE,INSERT ON <TABLE NAME> TO <USER NAME>;
+
 
 CREATE SEQUENCE SIFRAPROIZVODA_SEKVENCA
   START WITH 45

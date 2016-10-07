@@ -60,7 +60,7 @@ public class DatabaseBroker {
     public int poveziSeSaBazom() {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "my-book-store", "my-book-store");
+            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "root");
             con.setAutoCommit(false);
             System.out.println("uspesna konekcija");
             return 0;
