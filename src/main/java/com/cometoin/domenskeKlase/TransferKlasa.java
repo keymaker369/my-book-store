@@ -6,6 +6,7 @@ package com.cometoin.domenskeKlase;
 
 import java.io.Serializable;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -30,7 +31,7 @@ public class TransferKlasa implements Serializable {
     public static final int VRATI_POJEDINE_PROIZVODE = 14;
     private Object o;
     private int operacija;
-    private LinkedList<Object> lista;
+    private List lista;
     private int signal;
 
     /**
@@ -64,14 +65,14 @@ public class TransferKlasa implements Serializable {
     /**
      * @return the lista
      */
-    public LinkedList<Object> getLista() {
+    public List getLista() {
         return lista;
     }
 
     /**
      * @param lista the lista to set
      */
-    public void setLista(LinkedList<Object> lista) {
+    public void setLista(List lista) {
         this.lista = lista;
     }
 

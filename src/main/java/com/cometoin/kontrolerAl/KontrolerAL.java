@@ -5,6 +5,7 @@
 package com.cometoin.kontrolerAl;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import com.cometoin.domenskeKlase.Narudzbenica;
 import com.cometoin.domenskeKlase.Proizvod;
@@ -60,11 +61,11 @@ public class KontrolerAL {
         return ZapamtiNarudzbenicu.zapamtiNarudzbenicu(narudzbenica);
     }
 
-    public LinkedList vratiProizvode(Proizvod proizvod) {
+    public List vratiProizvode(Proizvod proizvod) {
         return VratiSveProizvode.vratiSveProizvode(proizvod);
     }
 
-    public LinkedList vratiNarudzbenice(Narudzbenica narudzbenica) {
+    public List vratiNarudzbenice(Narudzbenica narudzbenica) {
         return VratiSveNarudzbenice.vratiSveNarudzbenice(narudzbenica);
     }
 
@@ -72,7 +73,7 @@ public class KontrolerAL {
         return ObrisiNarudzbenicu.obrisiNarudzbenicu(narudzbenica);
     }
 
-    public LinkedList vratiRacune(Racun racun) {
+    public List vratiRacune(Racun racun) {
         return VratiSveRacune.vratiSveRacune(racun);
     }
 

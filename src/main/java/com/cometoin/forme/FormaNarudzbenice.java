@@ -11,6 +11,7 @@
 package com.cometoin.forme;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.ListSelectionModel;
 
@@ -24,7 +25,7 @@ import com.cometoin.kontrolerKorisnickogInterfejsa.KontrolerFormeNarudzbenice;
 public class FormaNarudzbenice extends javax.swing.JDialog {
 
     KontrolerFormeNarudzbenice kfn;
-    LinkedList listaNarudzbenica;
+    List listaNarudzbenica;
 
     /** Creates new form FormaNarudzbenice */
     public FormaNarudzbenice(java.awt.Frame parent, boolean modal) {

@@ -30,6 +30,8 @@ public abstract class OpstaSistemskaOperacija {
         if (!proveriUspesnostOpsta(signal)) {
             return signal;
         }
+        
+        zapocniTransakciju();
 
         signal = izvrsenjeSistemskeOperacije(odo);
 
@@ -43,29 +45,14 @@ public abstract class OpstaSistemskaOperacija {
         return signal;
     }
 
-    private void otvoriBazu() {
+	private void otvoriBazu() {
         signal = DatabaseBroker.getInstance().poveziSeSaBazom();
-        
-        //http://docs.jboss.org/hibernate/orm/5.2/topical/html_single/bootstrap/NativeBootstrapping.html
-/*        StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
-        	.configure( "org/hibernate/example/MyCfg.xml" )
-        	.build();
-
-		Metadata metadata = new MetadataSources( standardRegistry )
-		        .addAnnotatedClass( Proizvod.class )
-		        .addAnnotatedClassName( "org.hibernate.example.Customer" )
-//		        .addResource( "org/hibernate/example/Order.hbm.xml" )
-//		        .addResource( "org/hibernate/example/Product.orm.xml" )
-		        .getMetadataBuilder()
-		        .applyImplicitNamingStrategy( ImplicitNamingStrategyJpaCompliantImpl.INSTANCE )
-		        .build();
-		
-//		SessionFactory sessionFactory = metadata.getSessionFactoryBuilder()
-//		        .applyBeanManager( getBeanManagerFromSomewhere() )
-//		        .build();
-*/        
     }
 
+    private void zapocniTransakciju() {
+    	DatabaseBroker.getInstance().startTranskacije();
+	}
+    
     public boolean proveriUspesnostOpsta(int sig) {
 
         switch (sig) {

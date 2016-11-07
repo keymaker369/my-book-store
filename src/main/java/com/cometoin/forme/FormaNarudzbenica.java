@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.DefaultCellEditor;
@@ -292,7 +293,7 @@ public class FormaNarudzbenica extends javax.swing.JDialog implements ActionList
 
     private JComboBox napraviJCBProizvodi() {
         JComboBox comboBox = new JComboBox();
-        LinkedList proizvodi = kfn.vratiSveProizvode();
+        List proizvodi = kfn.vratiSveProizvode();
         Iterator it = proizvodi.iterator();
         while (it.hasNext()) {
             Proizvod p = (Proizvod) it.next();

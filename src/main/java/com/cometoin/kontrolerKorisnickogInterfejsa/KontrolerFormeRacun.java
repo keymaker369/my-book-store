@@ -6,6 +6,7 @@ package com.cometoin.kontrolerKorisnickogInterfejsa;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.DefaultCellEditor;
@@ -90,7 +91,7 @@ public class KontrolerFormeRacun {
         }
     }
 
-    public LinkedList vratiSveProizvode() {
+    public List vratiSveProizvode() {
         return KlasaZaKomunikacijuKlijent.getInstance().vratiProizvode(new Proizvod());
     }
 

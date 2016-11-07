@@ -5,6 +5,7 @@
 package com.cometoin.forme.komponente;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -16,10 +17,10 @@ import com.cometoin.domenskeKlase.Proizvod;
  */
 public class KatalogTableModel extends DefaultTableModel {
 
-    LinkedList proizvodi;
+    List proizvodi;
     String[] naziviKolona = new String[]{ "Sifra proizvoda", "Naziv", "Dobavljac", "Opis", "Cena", "Kolicina"};
 
-    public KatalogTableModel(LinkedList proizvodi) {
+    public KatalogTableModel(List proizvodi) {
         this.proizvodi = proizvodi;
     }
 

@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -164,7 +165,7 @@ public class KlasaZaKomunikacijuKlijent {
 		}
 	}
 
-	public LinkedList vratiProizvode(Proizvod proizvod) {
+	public List vratiProizvode(Proizvod proizvod) {
 		try {
 			TransferKlasa tk = new TransferKlasa();
 			tk.setOperacija(TransferKlasa.VRATI_PROIZVODE);
@@ -183,7 +184,7 @@ public class KlasaZaKomunikacijuKlijent {
 		return new LinkedList();
 	}
 
-	public LinkedList vratiNarudzbenice(Narudzbenica narudzbenica) {
+	public List vratiNarudzbenice(Narudzbenica narudzbenica) {
 		try {
 			TransferKlasa tk = new TransferKlasa();
 			tk.setOperacija(TransferKlasa.VRATI_SVE_NARUDZBENICE);
@@ -222,7 +223,7 @@ public class KlasaZaKomunikacijuKlijent {
 		}
 	}
 
-	public LinkedList vratiRacune(Racun racun) {
+	public List vratiRacune(Racun racun) {
 		try {
 			TransferKlasa tk = new TransferKlasa();
 			tk.setOperacija(TransferKlasa.VRATI_SVE_RACUNE);
@@ -336,7 +337,7 @@ public class KlasaZaKomunikacijuKlijent {
 		System.out.println("povezivanje: " + k.poveziSeSaServerom());
 	}
 
-	public LinkedList vratiPojedineProizvode(Proizvod proizvod) {
+	public List vratiPojedineProizvode(Proizvod proizvod) {
 		try {
 			TransferKlasa tk = new TransferKlasa();
 			tk.setOperacija(TransferKlasa.VRATI_POJEDINE_PROIZVODE);

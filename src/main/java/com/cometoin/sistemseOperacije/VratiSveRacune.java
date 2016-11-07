@@ -6,6 +6,7 @@ package com.cometoin.sistemseOperacije;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.cometoin.dbbr.DatabaseBroker;
 import com.cometoin.domenskeKlase.OpstiDomenskiObjekat;
@@ -17,9 +18,9 @@ import com.cometoin.domenskeKlase.Racun;
  */
 public class VratiSveRacune extends OpstaSistemskaOperacija{
 
-    private static LinkedList racuni;
+    private static List racuni;
 
-    public static LinkedList vratiSveRacune(Racun racun) {
+    public static List vratiSveRacune(Racun racun) {
         VratiSveRacune vsr = new VratiSveRacune();
         vsr.opsteIzvrsenjeSO(racun);
         return racuni;
@@ -49,7 +50,7 @@ public class VratiSveRacune extends OpstaSistemskaOperacija{
         }
     }
 
-    private boolean napuniRacune(LinkedList racuni) {
+    private boolean napuniRacune(List racuni) {
         Iterator it = racuni.iterator();
         while (it.hasNext()) {
             Racun r = (Racun) it.next();

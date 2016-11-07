@@ -11,15 +11,22 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
-/**
- *
- * @author user
- */
 @Entity
 public class Proizvod implements OpstiDomenskiObjekat,Serializable{
 
+	private static final long serialVersionUID = 8089912468763886454L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIFRAPROIZVODA_SEKVENCA")
+	@SequenceGenerator(name = "SIFRAPROIZVODA_SEKVENCA", sequenceName = "SIFRAPROIZVODA_SEKVENCA", allocationSize = 1, initialValue = 1)
+	@Column(name= "SIFRAPROIZVODA")
     private int sifraProizvoda;
     private String naziv;
     private String dobavljac;
@@ -83,27 +90,16 @@ public class Proizvod implements OpstiDomenskiObjekat,Serializable{
         return "SIFRAPROIZVODA_SEKVENCA.nextval, '" + naziv + "'," + "'" + dobavljac + "'," + "'" + opis + "'," + kolicina + "," + cena;
     }
 
-    public boolean napuniSve(ResultSet rs) {
-        try {
-            rs.next();
-            try {
-                sifraProizvoda = rs.getInt("Max");
-                return true;
-            } catch (SQLException sql) {
-            }
-
-            sifraProizvoda = rs.getInt("SifraProizvoda");
-            naziv = rs.getString("Naziv");
-            dobavljac = rs.getString("Dobavljac");
-            opis = rs.getString("Opis");
-            kolicina = rs.getInt("Kolicina");
-            cena = rs.getDouble("Cena");
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(Proizvod.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-    }
+	public boolean napuniSve(OpstiDomenskiObjekat odo) {
+		Proizvod proizvod = (Proizvod) odo;
+		sifraProizvoda = proizvod.getSifraProizvoda();
+		naziv = proizvod.getNaziv();
+		dobavljac = proizvod.getDobavljac();
+		opis = proizvod.getOpis();
+		kolicina = proizvod.getKolicina();
+		cena = proizvod.getCena();
+		return true;
+	}
 
     public LinkedList vratiSveOvogTipa(ResultSet rs) {
         LinkedList listaProizvoda = new LinkedList();
@@ -163,4 +159,5 @@ public class Proizvod implements OpstiDomenskiObjekat,Serializable{
     public String vratiUslovZaObrisiSlog() {
         return "sifraproizvoda = " + sifraProizvoda;
     }
+    
 }

@@ -146,4 +146,9 @@ public class StavkaNarudzbenice implements OpstiDomenskiObjekat,Serializable {
         //brisem sve stavke a ne samo jednu
         return "sifraNarudzbenice = " + sifraNarudzbenice;
     }
+    
+	@Override
+	public boolean napuniSve(OpstiDomenskiObjekat odoIzBaze) {
+		throw new RuntimeException("nije implementirano");
+	}
 }

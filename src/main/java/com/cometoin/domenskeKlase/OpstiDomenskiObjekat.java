@@ -19,7 +19,7 @@ public interface OpstiDomenskiObjekat {
 
     public String vratiKoloneZaInsert();
 
-    public boolean napuniSve(ResultSet rs);
+    public boolean napuniSve(OpstiDomenskiObjekat odoIzBaze);
 
     public boolean napuniSve(ResultSet rs, ResultSet rsStavke);
 

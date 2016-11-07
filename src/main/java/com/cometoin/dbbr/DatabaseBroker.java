@@ -10,8 +10,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.Metadata;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.query.Query;
 
 import com.cometoin.domenskeKlase.Narudzbenica;
 import com.cometoin.domenskeKlase.OpstiDomenskiObjekat;
@@ -30,7 +40,36 @@ public class DatabaseBroker {
     private static DatabaseBroker instance;
     private Connection con;
     private Statement st;
+    
+    private static SessionFactory sessionFactory;
+    Session session;
 
+    
+    static {
+    	//http://docs.jboss.org/hibernate/orm/5.2/topical/html_single/bootstrap/NativeBootstrapping.html
+    	try {        
+			StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
+            	.configure( "hibernate.cfg.xml" )
+            	.build();
+
+    		Metadata metadata = new MetadataSources(standardRegistry)
+    		        //.addAnnotatedClass( Proizvod.class )
+    		        //.addAnnotatedClassName( "org.hibernate.example.Customer" )
+//        		        .addResource( "org/hibernate/example/Order.hbm.xml" )
+//        		        .addResource( "org/hibernate/example/Product.orm.xml" )
+    		        .getMetadataBuilder()
+    		        .applyImplicitNamingStrategy(ImplicitNamingStrategyJpaCompliantImpl.INSTANCE)
+    		        .build();
+	
+    		sessionFactory = metadata.getSessionFactoryBuilder()
+//        		        .applyBeanManager( getBeanManagerFromSomewhere() )
+    		        .build();
+        
+        } catch (Exception e) {
+        	System.out.println("Neuspesno povezivanje sa bazom.");
+        }
+    }
+    
     public static DatabaseBroker getInstance() {
 
         if (instance == null) {
@@ -58,27 +97,35 @@ public class DatabaseBroker {
 //        return 1;
 //    }
     public int poveziSeSaBazom() {
-        try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "root");
-            con.setAutoCommit(false);
-            System.out.println("uspesna konekcija");
-            return 0;
-        } catch (SQLException ex) {
-            //Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("Greska prilikom ucitavanja driver-a... -> " + ex);
-        } catch (ClassNotFoundException ex) {
-            //Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("Greska prilikom otvaranja konekcije sa bazom... -> " + ex);
-        }
-        return 1;
+//        try {
+//            Class.forName("oracle.jdbc.driver.OracleDriver");
+//            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "root");
+//            con.setAutoCommit(false);
+//            System.out.println("uspesna konekcija");
+//            return 0;
+//        } catch (SQLException ex) {
+//            //Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            System.err.println("Greska prilikom ucitavanja driver-a... -> " + ex);
+//        } catch (ClassNotFoundException ex) {
+//            //Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            System.err.println("Greska prilikom otvaranja konekcije sa bazom... -> " + ex);
+//        }
+        
+    	if(session == null || !session.isOpen())
+    		session = sessionFactory.openSession();
+    	
+        return 0;
     }
 
+	public void startTranskacije() {
+		session.beginTransaction();		
+	}
+    
     public int commitTransakcije() {
         try {
-            con.commit();
+            session.getTransaction().commit();
             return 0;
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 1;
@@ -86,9 +133,10 @@ public class DatabaseBroker {
 
     public int rollbackTransakcije() {
         try {
-            con.rollback();
+//            con.rollback();
+        	session.getTransaction().rollback();
             return 0;
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 1;
@@ -96,9 +144,9 @@ public class DatabaseBroker {
 
     public int zatvoriBazu() {
         try {
-            con.close();
+            session.close();
             return 0;
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 1;
@@ -107,17 +155,17 @@ public class DatabaseBroker {
 
     public int vratiSlog(OpstiDomenskiObjekat odo) {
         try {
-            String upit = "Select * FROM " + odo.vratiImeTabele()
+            String upit = "FROM " + odo.vratiImeTabele()
                     + " WHERE " + odo.vratiUslovZaNadjiSlog();
             System.out.println(upit);
-
-
-            st = con.createStatement();
-            ResultSet rs = st.executeQuery(upit);
-            odo.napuniSve(rs);
-            rs.close();
-            st.close();
-        } catch (SQLException ex) {
+            Query query = session.createQuery(upit);
+            OpstiDomenskiObjekat odoIzBaze = (OpstiDomenskiObjekat) query.getSingleResult();
+//            st = con.createStatement();
+//            ResultSet rs = st.executeQuery(upit);
+            odo.napuniSve(odoIzBaze);
+//            rs.close();
+//            st.close();
+        } catch (Exception ex) {
             System.out.println("Neuspesno prilikom citanja iz baze.");
             Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
             return 1;
@@ -130,10 +178,13 @@ public class DatabaseBroker {
             String upit = "DELETE FROM " + odo.vratiImeTabele()
                     + " WHERE " + odo.vratiUslovZaObrisiSlog();
             System.out.println(upit);
-            st = con.createStatement();
-            st.executeUpdate(upit);
-            st.close();
-        } catch (SQLException ex) {
+            Query query = session.createQuery(upit);
+            int countOfDeletedEntities = query.executeUpdate();
+            System.out.println("Obrisano entiteta: " + countOfDeletedEntities);
+//            st = con.createStatement();
+//            st.executeUpdate(upit);
+//            st.close();
+        } catch (Exception ex) {
             System.out.println("Neuspesno prilikom brisanja iz baze.");
             Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
             return 2;
@@ -144,14 +195,15 @@ public class DatabaseBroker {
     public int pamtiSlog(OpstiDomenskiObjekat odo) {
         String upit;
         try {
-            st = con.createStatement();
+//            st = con.createStatement();
             upit = "INSERT INTO " + odo.vratiImeTabele()
                     + odo.vratiKoloneZaInsert()
                     + " VALUES (" + odo.vratiVrednostiZaInsert() + ")";
             System.out.println("Upis unosa stavke pre izvesenja:" + upit);
-            st.executeUpdate(upit);
-            st.close();
-        } catch (SQLException esql) {
+            Object o = session.save(odo);
+//            st.executeUpdate(upit);
+//            st.close();
+        } catch (Exception esql) {
             System.out.println("Greska prilikom pamcenja sloga u bazi: " + esql);
             return 3;
         }
@@ -167,7 +219,8 @@ public class DatabaseBroker {
             upit = "SELECT Max(" + odo.vratiAtributPretrazivanja() + " ) as Max FROM " + odo.vratiImeTabele();
             System.out.println(upit);
             rs = st.executeQuery(upit);
-            if (!odo.napuniSve(rs)) {
+            //if (!odo.napuniSve(rs)) {
+            if (!odo.napuniSve(null)) {
                 return 1;
             }
 
@@ -187,15 +240,18 @@ public class DatabaseBroker {
 
         try {
 
-            st = con.createStatement();
+//            st = con.createStatement();
             upit = "UPDATE " + odo.vratiImeTabele()
                     + " SET " + odo.postaviVrednostiAtributaZaUpdate()
                     + " WHERE " + odo.vratiUslovZaNadjiSlog();
             System.out.println("PROMENI SLOG - upit:" + upit);
-            st.executeUpdate(upit);
-            st.close();
-        } catch (SQLException esql) {
-            System.out.println("Greska prilikom apdejta sloga u bazi: " + esql);
+            Query query = session.createQuery(upit);
+            int countOfUpdatedEntities = query.executeUpdate();
+            System.out.println("Updejtovano entiteta: " + countOfUpdatedEntities);
+//            st.executeUpdate(upit);
+//            st.close();
+        } catch (Exception esql) {
+            esql.printStackTrace();
             return 5;
         }
         return 0;
@@ -226,21 +282,23 @@ public class DatabaseBroker {
         return 0; // Slog postoji u bazi.
     }
 
-    public LinkedList vratiListuSvihSlogova(OpstiDomenskiObjekat odo) {
+    public List vratiListuSvihSlogova(OpstiDomenskiObjekat odo) {
         String upit;
         ResultSet rs;
         LinkedList listaSlogova;
         try {
-            upit = "SELECT * FROM " + odo.vratiImeTabele() + " ORDER BY " + odo.vratiAtributPretrazivanja() + " ASC";
+            upit = "FROM " + odo.vratiImeTabele() + " ORDER BY " + odo.vratiAtributPretrazivanja() + " ASC";
             System.out.println(upit);
-            st = con.createStatement();
-            rs = st.executeQuery(upit);
-            listaSlogova = odo.vratiSveOvogTipa(rs);
-        } catch (SQLException esql) {
+            Query query = session.createQuery(upit);
+            return query.list();
+//            st = con.createStatement();
+//            rs = st.executeQuery(upit);
+//            listaSlogova = odo.vratiSveOvogTipa(rs);
+        } catch (Exception esql) {
             System.out.println("Nije uspesno promenjen slog u bazu: " + esql);
             return null;
         }
-        return listaSlogova;
+//        return listaSlogova;
     }
 
     public LinkedList vratiListuPojedinihSlogova(OpstiDomenskiObjekat odo) {
@@ -311,4 +369,6 @@ public class DatabaseBroker {
     public static void main(String[] args){
     	DatabaseBroker.getInstance().poveziSeSaBazom();
     }
+
+
 }

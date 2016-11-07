@@ -5,6 +5,7 @@
 package com.cometoin.kontrolerKorisnickogInterfejsa;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -23,7 +24,7 @@ public class KontrolerFormeRacuni {
 
     int signal;
 
-    public void dodajNoviRacun(JTable jtRacuni, LinkedList listaRacuna) {
+    public void dodajNoviRacun(JTable jtRacuni, List listaRacuna) {
         Racun noviRacun = new Racun();
         KlasaZaKomunikacijuKlijent.getInstance().kreirajRacun(noviRacun);
         if(signal!=0)
@@ -32,7 +33,7 @@ public class KontrolerFormeRacuni {
         osveziFormu(jtRacuni, listaRacuna);
     }
 
-    public void izmeniRacun(JTable jtRacuni, LinkedList listaRacuna) {
+    public void izmeniRacun(JTable jtRacuni, List listaRacuna) {
         int selRed = jtRacuni.getSelectedRow();
         if (selRed != -1) {
             Racun r = ((RacuniTableModel) jtRacuni.getModel()).vratiRacun(selRed);
@@ -43,7 +44,7 @@ public class KontrolerFormeRacuni {
         }
     }
 
-    public void obrisiRacun(JTable jtRacuni, LinkedList listaRacuna) {
+    public void obrisiRacun(JTable jtRacuni, List listaRacuna) {
         int selRed = jtRacuni.getSelectedRow();
         if (selRed == -1) {
             JOptionPane.showMessageDialog(jtRacuni, "Neophodno je izabrati racun!");
@@ -62,12 +63,12 @@ public class KontrolerFormeRacuni {
         osveziFormu(jtRacuni, listaRacuna);
     }
 
-    public LinkedList vratiSveRacune() {
-        LinkedList lista = KlasaZaKomunikacijuKlijent.getInstance().vratiRacune(new Racun());
+    public List vratiSveRacune() {
+        List lista = KlasaZaKomunikacijuKlijent.getInstance().vratiRacune(new Racun());
         return lista;
     }
 
-    private void osveziFormu(JTable jtRacuni, LinkedList listaRacuna) {
+    private void osveziFormu(JTable jtRacuni, List listaRacuna) {
         listaRacuna = KlasaZaKomunikacijuKlijent.getInstance().vratiRacune(new Racun());
         jtRacuni.setModel(new RacuniTableModel(listaRacuna));
     }

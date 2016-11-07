@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
@@ -92,7 +93,7 @@ public class KontrolerFormeNarudzbenica {
         }
     }
 
-    public LinkedList vratiSveProizvode() {
+    public List vratiSveProizvode() {
         return KlasaZaKomunikacijuKlijent.getInstance().vratiProizvode(new Proizvod());
     }
 

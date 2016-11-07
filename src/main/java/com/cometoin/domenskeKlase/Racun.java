@@ -164,4 +164,9 @@ public class Racun implements OpstiDomenskiObjekat,Serializable {
     public String vratiPodatkeKaoString() {
         return sifra + " " + datum + " " + ukupnaVrednost + " " + obradjen + " " + nazivPartnera;
     }
+	
+    @Override
+	public boolean napuniSve(OpstiDomenskiObjekat odoIzBaze) {
+		throw new RuntimeException("nije implementirano");
+	}
 }

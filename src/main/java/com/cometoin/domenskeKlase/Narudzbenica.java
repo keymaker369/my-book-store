@@ -189,4 +189,9 @@ public class Narudzbenica implements OpstiDomenskiObjekat,Serializable {
 		return sifraNarudzbenice + " " + sifraNarudzbeniceKup + " " + datum
 				+ " " + kupac;
 	}
+
+	@Override
+	public boolean napuniSve(OpstiDomenskiObjekat odoIzBaze) {
+		throw new RuntimeException("nije implementirano");
+	}
 }

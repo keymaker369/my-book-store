@@ -138,4 +138,9 @@ public class StavkaRacuna implements OpstiDomenskiObjekat,Serializable {
         //brisem sve stavke a ne samo jednu
         return "sifra = " + sifra;
     }
+    
+	@Override
+	public boolean napuniSve(OpstiDomenskiObjekat odoIzBaze) {
+		throw new RuntimeException("nije implementirano");
+	}
 }

@@ -5,6 +5,7 @@
 package com.cometoin.kontrolerKorisnickogInterfejsa;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -24,12 +25,12 @@ public class KontrolerFormeKatalog {
 
     int signal;
 
-    public void dodajProizvod(JTable jtKatalog, LinkedList listaProizvoda) {
+    public void dodajProizvod(JTable jtKatalog, List listaProizvoda) {
         new FormaProizvod(null, true, 1, new Proizvod()).setVisible(true);
         osveziFormu(jtKatalog, listaProizvoda);
     }
 
-    public void izmeniProizvod(JTable jtKatalog, LinkedList listaProizvoda) {
+    public void izmeniProizvod(JTable jtKatalog, List listaProizvoda) {
         int selRed = jtKatalog.getSelectedRow();
         if (selRed != -1) {
             Proizvod p = ((KatalogTableModel) jtKatalog.getModel()).vratiProizvod(selRed);
@@ -40,7 +41,7 @@ public class KontrolerFormeKatalog {
         }
     }
 
-    public void obrisiProizvod(JTable jtKatalog, LinkedList listaProizvoda) {
+    public void obrisiProizvod(JTable jtKatalog, List listaProizvoda) {
         int selRed = jtKatalog.getSelectedRow();
         if (selRed == -1) {
             JOptionPane.showMessageDialog(jtKatalog, "Neophodno je izabrati proizvod!");
@@ -59,12 +60,12 @@ public class KontrolerFormeKatalog {
         osveziFormu(jtKatalog, listaProizvoda);
     }
 
-    private void osveziFormu(JTable jtKatalog, LinkedList listaProizvoda) {
+    private void osveziFormu(JTable jtKatalog, List listaProizvoda) {
         listaProizvoda = KlasaZaKomunikacijuKlijent.getInstance().vratiProizvode(new Proizvod());
         jtKatalog.setModel(new KatalogTableModel(listaProizvoda));
     }
 
-    public void pronadjiProizvode(JTextField jtfPronadji, JTable jtKatalog, LinkedList listaProizvoda) {
+    public void pronadjiProizvode(JTextField jtfPronadji, JTable jtKatalog, List listaProizvoda) {
         Proizvod p = new Proizvod();
         p.setNaziv(jtfPronadji.getText());
         listaProizvoda = KlasaZaKomunikacijuKlijent.getInstance().vratiPojedineProizvode(p);

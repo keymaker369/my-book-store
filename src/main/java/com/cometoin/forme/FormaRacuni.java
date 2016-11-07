@@ -11,6 +11,7 @@
 package com.cometoin.forme;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.ListSelectionModel;
 
@@ -24,7 +25,7 @@ import com.cometoin.kontrolerKorisnickogInterfejsa.KontrolerFormeRacuni;
 public class FormaRacuni extends javax.swing.JDialog {
 
     KontrolerFormeRacuni kfr;
-    LinkedList listaRacuna;
+    List listaRacuna;
 
     /** Creates new form FormaRacuni */
     public FormaRacuni(java.awt.Frame parent, boolean modal) {

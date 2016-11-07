@@ -6,6 +6,7 @@ package com.cometoin.sistemseOperacije;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.cometoin.dbbr.DatabaseBroker;
 import com.cometoin.domenskeKlase.Narudzbenica;
@@ -17,9 +18,9 @@ import com.cometoin.domenskeKlase.OpstiDomenskiObjekat;
  */
 public class VratiSveNarudzbenice extends OpstaSistemskaOperacija {
 
-    private static LinkedList narudzbenice;
+    private static List narudzbenice;
 
-    public static LinkedList vratiSveNarudzbenice(Narudzbenica narudzbenica) {
+    public static List vratiSveNarudzbenice(Narudzbenica narudzbenica) {
         VratiSveNarudzbenice vsn = new VratiSveNarudzbenice();
         vsn.opsteIzvrsenjeSO(narudzbenica);
         return narudzbenice;
@@ -49,7 +50,7 @@ public class VratiSveNarudzbenice extends OpstaSistemskaOperacija {
         }
     }
 
-    private boolean napuniNarudzbenice(LinkedList narudzbenice) {
+    private boolean napuniNarudzbenice(List narudzbenice) {
         Iterator it = narudzbenice.iterator();
         while (it.hasNext()) {
             Narudzbenica n = (Narudzbenica) it.next();

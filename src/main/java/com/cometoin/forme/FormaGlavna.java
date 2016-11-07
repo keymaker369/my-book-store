@@ -35,7 +35,7 @@ public class FormaGlavna extends javax.swing.JFrame {
         }
         JFrame.setDefaultLookAndFeelDecorated(true);
 
-
+;
         initComponents();
         jbPrikaziKatalog.setEnabled(false);
         jbPrikaziNarudzbenice.setEnabled(false);

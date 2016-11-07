@@ -5,6 +5,7 @@
 package com.cometoin.forme.komponente;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -16,10 +17,10 @@ import com.cometoin.domenskeKlase.Narudzbenica;
  */
 public class NarudzbeniceTableModel extends DefaultTableModel {
 
-    LinkedList narudzbenice;
+    List narudzbenice;
     String[] naziviKolona = new String[]{"Sifra narudzbenice", "Sifra narudzbenice kupca", "Kupac", "Datum", "Ukupna vrednost"};
 
-    public NarudzbeniceTableModel(LinkedList narudzbenice) {
+    public NarudzbeniceTableModel(List narudzbenice) {
         this.narudzbenice = narudzbenice;
     }
 

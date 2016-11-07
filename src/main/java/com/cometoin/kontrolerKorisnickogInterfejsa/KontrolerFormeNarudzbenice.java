@@ -4,7 +4,7 @@
  */
 package com.cometoin.kontrolerKorisnickogInterfejsa;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -23,12 +23,12 @@ public class KontrolerFormeNarudzbenice {
 
     int signal;
 
-    public void dodajNovuNarudzbenicu(JTable jtNarudzbenice, LinkedList listaNarudzbenica) {
+    public void dodajNovuNarudzbenicu(JTable jtNarudzbenice, List listaNarudzbenica) {
         new FormaNarudzbenica(null, true, 1, new Narudzbenica()).setVisible(true);
         osveziFormu(jtNarudzbenice, listaNarudzbenica);
     }
 
-    public void izmeniNarudzbenicu(JTable jtNarudzbenice, LinkedList listaNarudzbenica) {
+    public void izmeniNarudzbenicu(JTable jtNarudzbenice, List listaNarudzbenica) {
         int selRed = jtNarudzbenice.getSelectedRow();
         if (selRed != -1) {
             Narudzbenica n = ((NarudzbeniceTableModel) jtNarudzbenice.getModel()).vratiNarudzbenicu(selRed);
@@ -39,7 +39,7 @@ public class KontrolerFormeNarudzbenice {
         }
     }
 
-    public void obrisiNarudzbenicu(JTable jtNarudzbenice, LinkedList listaNarudzbenica) {
+    public void obrisiNarudzbenicu(JTable jtNarudzbenice, List listaNarudzbenica) {
         int selRed = jtNarudzbenice.getSelectedRow();
         if (selRed == -1) {
             JOptionPane.showMessageDialog(jtNarudzbenice, "Neophodno je izabrati narudzbenicu!");
@@ -58,12 +58,12 @@ public class KontrolerFormeNarudzbenice {
         osveziFormu(jtNarudzbenice, listaNarudzbenica);
     }
 
-    public LinkedList vratiSveNarudzbenice() {
-        LinkedList lista = KlasaZaKomunikacijuKlijent.getInstance().vratiNarudzbenice(new Narudzbenica());
+    public List vratiSveNarudzbenice() {
+        List lista = KlasaZaKomunikacijuKlijent.getInstance().vratiNarudzbenice(new Narudzbenica());
         return lista;
     }
 
-    private void osveziFormu(JTable jtNarudzbenice, LinkedList listaNarudzbenica) {
+    private void osveziFormu(JTable jtNarudzbenice, List listaNarudzbenica) {
         listaNarudzbenica = KlasaZaKomunikacijuKlijent.getInstance().vratiNarudzbenice(new Narudzbenica());
         jtNarudzbenice.setModel(new NarudzbeniceTableModel(listaNarudzbenica));
     }
