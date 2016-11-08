@@ -8,21 +8,32 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * 
- * @author user
- */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+
+@Entity
 public class Narudzbenica implements OpstiDomenskiObjekat,Serializable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIFRANARUDZBENICE_SEKVENCA")
+	@SequenceGenerator(name = "SIFRANARUDZBENICE_SEKVENCA", sequenceName = "SIFRANARUDZBENICE_SEKVENCA", allocationSize = 1, initialValue = 1)
+	@Column(name= "SIFRANARUDZBENICE")
 	private int sifraNarudzbenice;
 	private String sifraNarudzbeniceKup;
 	private String datum;
 	private double ukupnaVrednost;
 	private String kupac;
-	private LinkedList stavkeNarudzbenice;
+	@OneToMany(mappedBy = "narudzbenica")
+	private List<StavkaNarudzbenice> stavkeNarudzbenice;
 
 	public void setSifraNarudzbenice(int sifraNarudzbenice) {
 		this.sifraNarudzbenice = sifraNarudzbenice;
@@ -36,11 +47,11 @@ public class Narudzbenica implements OpstiDomenskiObjekat,Serializable {
 		this.sifraNarudzbeniceKup = sifraNarudzbeniceKup;
 	}
 
-	public LinkedList getStavkeNarudzbenice() {
+	public List getStavkeNarudzbenice() {
 		return stavkeNarudzbenice;
 	}
 
-	public void setStavkeNarudzbenice(LinkedList stavkeNarudzbenice) {
+	public void setStavkeNarudzbenice(List stavkeNarudzbenice) {
 		this.stavkeNarudzbenice = stavkeNarudzbenice;
 	}
 

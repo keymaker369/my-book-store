@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.cometoin.domenskeKlase;
 
 import java.io.Serializable;
@@ -11,18 +7,33 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author user
- */
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+
+@Entity
+@IdClass(StavkaNarudzbenice.StavkaNarudzbenicePK.class)
 public class StavkaNarudzbenice implements OpstiDomenskiObjekat,Serializable {
 
+	@Id
+	
     private int sifraNarudzbenice;
-    private int redniBroj;
+	@Id
+	private int redniBroj;
     private int sifraProizvoda;
+    @Transient
     private String nazivProizvoda;
+    @Transient
     private double cenaProizvoda;
     private int kolicina;
+    
+    @ManyToOne
+    @JoinColumn(name = "sifraNarudzbenice", insertable = false, updatable = false)
+    private Narudzbenica narudzbenica;
 
     public int getSifraNarudzbenice() {
         return sifraNarudzbenice;
@@ -150,5 +161,37 @@ public class StavkaNarudzbenice implements OpstiDomenskiObjekat,Serializable {
 	@Override
 	public boolean napuniSve(OpstiDomenskiObjekat odoIzBaze) {
 		throw new RuntimeException("nije implementirano");
+	}
+	
+	public static class StavkaNarudzbenicePK implements Serializable {
+		
+		private static final long serialVersionUID = 814676763682928214L;
+		
+		private int sifraNarudzbenice;
+	    private int redniBroj;
+	    
+	    public StavkaNarudzbenicePK(){
+	    }
+	    
+	    public StavkaNarudzbenicePK(int sifraNarudzbenice, int redniBroj) {
+			this.sifraNarudzbenice = sifraNarudzbenice;
+			this.redniBroj = redniBroj;
+		}
+
+		public int getRedniBroj() {
+			return redniBroj;
+		}
+	    
+	    public void setRedniBroj(int redniBroj) {
+			this.redniBroj = redniBroj;
+		}
+	    
+	    public int getSifraNarudzbenice() {
+			return sifraNarudzbenice;
+		}
+	    
+	    public void setSifraNarudzbenice(int sifraNarudzbenice) {
+			this.sifraNarudzbenice = sifraNarudzbenice;
+		}
 	}
 }

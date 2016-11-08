@@ -121,7 +121,7 @@ public class KontrolerFormeNarudzbenica {
 
     private void izracunajUkupnuVrednost(Narudzbenica narudzbenica) {
         double ukupnaVrednost = 0;
-        LinkedList lista = narudzbenica.getStavkeNarudzbenice();
+        List lista = narudzbenica.getStavkeNarudzbenice();
         Iterator it = lista.iterator();
         while (it.hasNext()) {
             StavkaNarudzbenice sn = (StavkaNarudzbenice) it.next();

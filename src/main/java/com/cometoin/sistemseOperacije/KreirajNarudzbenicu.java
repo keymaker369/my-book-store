@@ -6,6 +6,7 @@ package com.cometoin.sistemseOperacije;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.cometoin.dbbr.DatabaseBroker;
 import com.cometoin.domenskeKlase.Narudzbenica;
@@ -26,12 +27,7 @@ public class KreirajNarudzbenicu extends OpstaSistemskaOperacija {
     @Override
     public int izvrsenjeSistemskeOperacije(OpstiDomenskiObjekat odo) {
 
-        signal = DatabaseBroker.getInstance().vratiZadnjiSlog(odo);
-        if (!proveriUspesnost()) {
-            return signal;
-        }
         ((Narudzbenica) odo).setSifraNarudzbenice(((Narudzbenica) odo).getSifraNarudzbenice() + 1);
-
 
         signal = DatabaseBroker.getInstance().pamtiSlog(odo);
         if (!proveriUspesnost()) {
@@ -57,7 +53,7 @@ public class KreirajNarudzbenicu extends OpstaSistemskaOperacija {
     }
 
     private boolean kreirajStavkeNarudzbenice(OpstiDomenskiObjekat odo) {
-        LinkedList stavke = ((Narudzbenica) odo).getStavkeNarudzbenice();
+        List stavke = ((Narudzbenica) odo).getStavkeNarudzbenice();
         Iterator it = stavke.iterator();
         while (it.hasNext()) {
             StavkaNarudzbenice sn = (StavkaNarudzbenice) it.next();

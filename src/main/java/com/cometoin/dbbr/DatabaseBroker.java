@@ -53,7 +53,10 @@ public class DatabaseBroker {
             	.build();
 
     		Metadata metadata = new MetadataSources(standardRegistry)
-    		        //.addAnnotatedClass( Proizvod.class )
+    		        .addAnnotatedClass(Narudzbenica.class)
+    		        .addAnnotatedClass(StavkaNarudzbenice.class)
+    		        .addAnnotatedClass(Racun.class)
+    		        .addAnnotatedClass(StavkaRacuna.class)
     		        //.addAnnotatedClassName( "org.hibernate.example.Customer" )
 //        		        .addResource( "org/hibernate/example/Order.hbm.xml" )
 //        		        .addResource( "org/hibernate/example/Product.orm.xml" )
@@ -66,6 +69,7 @@ public class DatabaseBroker {
     		        .build();
         
         } catch (Exception e) {
+        	e.printStackTrace();
         	System.out.println("Neuspesno povezivanje sa bazom.");
         }
     }
@@ -214,18 +218,20 @@ public class DatabaseBroker {
         String upit;
         ResultSet rs;
         try {
-            st = con.createStatement();
+//            st = con.createStatement();
             System.out.println(odo.vratiAtributPretrazivanja());
             upit = "SELECT Max(" + odo.vratiAtributPretrazivanja() + " ) as Max FROM " + odo.vratiImeTabele();
             System.out.println(upit);
-            rs = st.executeQuery(upit);
-            //if (!odo.napuniSve(rs)) {
-            if (!odo.napuniSve(null)) {
-                return 1;
-            }
+            Query query = session.createQuery(upit);
+            Integer izBaze = (Integer) query.uniqueResult();
+//            rs = st.executeQuery(upit);
+//            if (izBaze!= null && !odo.napuniSve(izBaze)) {
+//            if (!odo.napuniSve(null)) {
+//                return 1;
+//            }
 
-            rs.close();
-            st.close();
+//            rs.close();
+//            st.close();
 
         } catch (Exception e) {
             System.out.println("Greska kod citanja zadnjeg unetog sloga u bazu" + e);
@@ -263,19 +269,20 @@ public class DatabaseBroker {
 
         try {
 
-            st = con.createStatement();
-            upit = "SELECT *"
-                    + " FROM " + odo.vratiImeTabele()
+//            st = con.createStatement();
+            upit = " FROM " + odo.vratiImeTabele()
                     + " WHERE " + odo.vratiUslovZaNadjiSlog();
-            rs = st.executeQuery(upit);
-            boolean signal = rs.next();
-            rs.close();
-            st.close();
+//            rs = st.executeQuery(upit);
+            System.out.println(upit);
+            Query query = session.createQuery(upit);
+            List result = query.list();
+//            rs.close();
+//            st.close();
 
-            if (signal == false) {
+            if (result.isEmpty()) {
                 return 6; // Slog ne postoji u bazi.
             }
-        } catch (SQLException esql) {
+        } catch (Exception esql) {
             System.out.println("Nije uspesno pretrazena baza: " + esql);
             return 7; // Neuspesno pretrazivanje baze
         }
@@ -301,29 +308,30 @@ public class DatabaseBroker {
 //        return listaSlogova;
     }
 
-    public LinkedList vratiListuPojedinihSlogova(OpstiDomenskiObjekat odo) {
+    public List vratiListuPojedinihSlogova(OpstiDomenskiObjekat odo) {
         String upit;
         ResultSet rs;
         LinkedList listaSlogova;
         try {
-            upit = "SELECT *"
-                    + " FROM " + odo.vratiImeTabele()
+            upit =  " FROM " + odo.vratiImeTabele()
                     + " WHERE " + odo.vratiUslovZaNadjiSlogove();
             System.out.println(upit);
-            st = con.createStatement();
+            Query query = session.createQuery(upit);
+            return query.list();
+//            st = con.createStatement();
             //PreparedStatement ps = con.prepareStatement("SELECT * FROM Proizvod WHERE (((Proizvod.[naziv]) Like \"*\" & 'Rat' & \"*\"));");
             //System.out.println(ps.toString());
             //ps.setString(1, "Rat");
             //rs = ps.executeQuery();
-            rs = st.executeQuery(upit);
+//            rs = st.executeQuery(upit);
             //rs = st.executeQuery("SELECT * FROM Proizvod WHERE (((Proizvod.[naziv]) Like \"*\" & 'a' & \"*\"));");
             //rs = st.executeQuery("SELECT * FROM Proizvod where naziv = 'Rat i Mir'");
-            listaSlogova = odo.vratiSveOvogTipa(rs);
-        } catch (SQLException esql) {
+//            listaSlogova = odo.vratiSveOvogTipa(rs);
+        } catch (Exception esql) {
             Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, esql);
             return null;
         }
-        return listaSlogova;
+//        return listaSlogova;
     }
 
     public int napuniNarudzbenicu(OpstiDomenskiObjekat odo) {
@@ -331,15 +339,17 @@ public class DatabaseBroker {
 
         String upit;
         ResultSet rs;
-        LinkedList listaStavki = new LinkedList();
+//        LinkedList listaStavki = new LinkedList();
         try {
-            upit = "SELECT * FROM stavkaNarudzbenice where " + odo.vratiUslovZaNadjiSlog();
+            upit = "FROM StavkaNarudzbenice where " + odo.vratiUslovZaNadjiSlog();
             System.out.println(upit);
-            st = con.createStatement();
-            rs = st.executeQuery(upit);
-            listaStavki = (new StavkaNarudzbenice()).vratiSveOvogTipa(rs);
+//            st = con.createStatement();
+//            rs = st.executeQuery(upit);
+            Query query = session.createQuery(upit);
+            List<StavkaNarudzbenice> listaStavki = query.list();
+//            listaStavki = (new StavkaNarudzbenice()).vratiSveOvogTipa(rs);
             n.setStavkeNarudzbenice(listaStavki);
-        } catch (SQLException esql) {
+        } catch (Exception esql) {
             System.out.println("Greska prilikom iscitavanja stavki narudzbenice: "+esql);
             return 8;
         }

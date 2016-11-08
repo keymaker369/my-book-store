@@ -6,6 +6,7 @@ package com.cometoin.sistemseOperacije;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.cometoin.dbbr.DatabaseBroker;
 import com.cometoin.domenskeKlase.Narudzbenica;
@@ -50,7 +51,7 @@ public class ZapamtiNarudzbenicu extends OpstaSistemskaOperacija {
     }
 
     private boolean updejtujStavkeNarudzbenice(OpstiDomenskiObjekat odo) {
-        LinkedList stavke = ((Narudzbenica) odo).getStavkeNarudzbenice();
+        List stavke = ((Narudzbenica) odo).getStavkeNarudzbenice();
         Iterator it = stavke.iterator();
         boolean suObrisane = false; // mislim na stavke, zato sto ih prvo sve pobrisem pa ih ponovo upisem
         while (it.hasNext()) {

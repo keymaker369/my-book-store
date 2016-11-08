@@ -8,13 +8,13 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author user
- */
+import javax.persistence.Entity;
+
+@Entity
 public class Racun implements OpstiDomenskiObjekat,Serializable {
 
     private int sifra;
@@ -22,7 +22,7 @@ public class Racun implements OpstiDomenskiObjekat,Serializable {
     private double ukupnaVrednost;
     private boolean obradjen;
     private String nazivPartnera;
-    private LinkedList stavkeRacuna;
+    private List<StavkaRacuna> stavkeRacuna;
 
     public Racun() {
     }
@@ -35,11 +35,11 @@ public class Racun implements OpstiDomenskiObjekat,Serializable {
         this.nazivPartnera = nazivPartnera;
     }
 
-    public LinkedList getStavkeRacuna() {
+    public List getStavkeRacuna() {
         return stavkeRacuna;
     }
 
-    public void setStavkeRacuna(LinkedList stavkeRacuna) {
+    public void setStavkeRacuna(List stavkeRacuna) {
         this.stavkeRacuna = stavkeRacuna;
     }
 

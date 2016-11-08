@@ -93,7 +93,7 @@ public class KontrolerAL {
         return ObradiRacun.obradiRacun(racun);
     }
 
-    public LinkedList vratiPojedineProizvode(Proizvod proizvod){
+    public List vratiPojedineProizvode(Proizvod proizvod){
         return VratiPojedineProizvode.vratiPojedineProizvode(proizvod);
     }
 }

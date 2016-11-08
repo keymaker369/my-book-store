@@ -5,6 +5,7 @@
 package com.cometoin.sistemseOperacije;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import com.cometoin.dbbr.DatabaseBroker;
 import com.cometoin.domenskeKlase.OpstiDomenskiObjekat;
@@ -16,9 +17,9 @@ import com.cometoin.domenskeKlase.Proizvod;
  */
 public class VratiPojedineProizvode extends OpstaSistemskaOperacija {
 
-    private static LinkedList proizvodi;
+    private static List proizvodi;
 
-    public static LinkedList vratiPojedineProizvode(Proizvod proizvod) {
+    public static List vratiPojedineProizvode(Proizvod proizvod) {
         VratiPojedineProizvode vsr = new VratiPojedineProizvode();
         vsr.opsteIzvrsenjeSO(proizvod);
         return proizvodi;
