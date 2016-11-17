@@ -12,16 +12,21 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 public class Racun implements OpstiDomenskiObjekat,Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIFRARACUNA_SEKVENCA")
+    @SequenceGenerator(name = "SIFRARACUNA_SEKVENCA", sequenceName = "SIFRACUNA_SEKVENCA", allocationSize = 1, initialValue = 1)
+    @Column(name= "SIFRARACUNA")
     private int sifra;
     private String datum;
     private double ukupnaVrednost;
     private boolean obradjen;
     private String nazivPartnera;
+    @OneToMany(mappedBy = "racun")
     private List<StavkaRacuna> stavkeRacuna;
 
     public Racun() {

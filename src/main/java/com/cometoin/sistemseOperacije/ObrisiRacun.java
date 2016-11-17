@@ -5,6 +5,7 @@
 package com.cometoin.sistemseOperacije;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import com.cometoin.dbbr.DatabaseBroker;
 import com.cometoin.domenskeKlase.OpstiDomenskiObjekat;
@@ -60,7 +61,7 @@ public class ObrisiRacun extends OpstaSistemskaOperacija {
     }
 
     private boolean obrisiStavke(OpstiDomenskiObjekat odo) {
-        LinkedList stavke = ((Racun) odo).getStavkeRacuna();
+        List stavke = ((Racun) odo).getStavkeRacuna();
         if (stavke != null) {
             if(stavke.size()!=0)
                 //sa ovim se brisu sve stavke posto je tako namesten uslov u stavki narudzbenice (vraca samo sifru narudzbenice)

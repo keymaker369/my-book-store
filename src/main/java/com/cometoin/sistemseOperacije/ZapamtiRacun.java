@@ -6,6 +6,7 @@ package com.cometoin.sistemseOperacije;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.cometoin.dbbr.DatabaseBroker;
 import com.cometoin.domenskeKlase.OpstiDomenskiObjekat;
@@ -54,7 +55,7 @@ public class ZapamtiRacun extends OpstaSistemskaOperacija {
     }
 
     private boolean updejtujStavkeRacuna(OpstiDomenskiObjekat odo) {
-        LinkedList stavke = ((Racun) odo).getStavkeRacuna();
+        List stavke = ((Racun) odo).getStavkeRacuna();
         if (stavke == null) {
             return true;
         }

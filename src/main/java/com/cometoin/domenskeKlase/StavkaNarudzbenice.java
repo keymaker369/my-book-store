@@ -20,7 +20,6 @@ import javax.persistence.Transient;
 public class StavkaNarudzbenice implements OpstiDomenskiObjekat,Serializable {
 
 	@Id
-	
     private int sifraNarudzbenice;
 	@Id
 	private int redniBroj;

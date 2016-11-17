@@ -4,23 +4,30 @@
  */
 package com.cometoin.domenskeKlase;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-/**
- *
- * @author user
- */
+@Entity
+@IdClass(StavkaRacuna.StavkaRacunaPK.class)
 public class StavkaRacuna implements OpstiDomenskiObjekat,Serializable {
 
+    @Id
     private int sifra;
+    @Id
     private int redniBroj;
     private int sifraProizvoda;
     private int kolicina;
+    @Transient
     private String nazivProizvoda;
+    @Transient
     private double cenaProizvoda;
+
+    @ManyToOne
+    @JoinColumn(name = "sifraRacuna", insertable = false, updatable = false)
+    private Racun racun;
 
     public StavkaRacuna() {
     }
@@ -100,6 +107,14 @@ public class StavkaRacuna implements OpstiDomenskiObjekat,Serializable {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    public Racun getRacun() {
+        return racun;
+    }
+
+    public void setRacun(Racun racun) {
+        this.racun = racun;
+    }
+
     public LinkedList vratiSveOvogTipa(ResultSet rs) {
         LinkedList lista = new LinkedList();
         try {
@@ -143,4 +158,35 @@ public class StavkaRacuna implements OpstiDomenskiObjekat,Serializable {
 	public boolean napuniSve(OpstiDomenskiObjekat odoIzBaze) {
 		throw new RuntimeException("nije implementirano");
 	}
+
+    public static class StavkaRacunaPK implements Serializable {
+
+        private int sifra;
+
+        private int redniBroj;
+
+        public StavkaRacunaPK() {
+        }
+
+        public StavkaRacunaPK(int sifra, int redniBroj) {
+            this.sifra = sifra;
+            this.redniBroj = redniBroj;
+        }
+
+        public int getSifra() {
+            return sifra;
+        }
+
+        public void setSifra(int sifra) {
+            this.sifra = sifra;
+        }
+
+        public int getRedniBroj() {
+            return redniBroj;
+        }
+
+        public void setRedniBroj(int redniBroj) {
+            this.redniBroj = redniBroj;
+        }
+    }
 }

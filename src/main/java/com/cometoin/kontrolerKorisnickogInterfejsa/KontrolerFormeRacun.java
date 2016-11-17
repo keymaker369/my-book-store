@@ -119,7 +119,7 @@ public class KontrolerFormeRacun {
 
     private void izracunajUkupnuVrednost(Racun racun) {
         double ukupnaVrednost = 0;
-        LinkedList lista = racun.getStavkeRacuna();
+        List lista = racun.getStavkeRacuna();
         Iterator it = lista.iterator();
         while (it.hasNext()) {
             StavkaRacuna sr = (StavkaRacuna) it.next();
