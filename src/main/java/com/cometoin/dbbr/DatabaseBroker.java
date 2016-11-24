@@ -30,6 +30,7 @@ import com.cometoin.domenskeKlase.StavkaNarudzbenice;
 import com.cometoin.domenskeKlase.StavkaRacuna;
 
 import oracle.jdbc.OracleTypes;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 /**
  *
@@ -127,7 +128,10 @@ public class DatabaseBroker {
     
     public int commitTransakcije() {
         try {
-            session.getTransaction().commit();
+            if(session.getTransaction().getStatus().equals(TransactionStatus.MARKED_ROLLBACK))
+                session.getTransaction().rollback();
+            else
+                session.getTransaction().commit();
             return 0;
         } catch (Exception ex) {
             Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
@@ -170,7 +174,6 @@ public class DatabaseBroker {
 //            rs.close();
 //            st.close();
         } catch (Exception ex) {
-            System.out.println("Neuspesno prilikom citanja iz baze.");
             Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
             return 1;
         }
@@ -208,7 +211,7 @@ public class DatabaseBroker {
 //            st.executeUpdate(upit);
 //            st.close();
         } catch (Exception esql) {
-            System.out.println("Greska prilikom pamcenja sloga u bazi: " + esql);
+            esql.printStackTrace();
             return 3;
         }
         return 0;
@@ -302,7 +305,7 @@ public class DatabaseBroker {
 //            rs = st.executeQuery(upit);
 //            listaSlogova = odo.vratiSveOvogTipa(rs);
         } catch (Exception esql) {
-            System.out.println("Nije uspesno promenjen slog u bazu: " + esql);
+            esql.printStackTrace();
             return null;
         }
 //        return listaSlogova;
@@ -338,7 +341,7 @@ public class DatabaseBroker {
         Narudzbenica n = (Narudzbenica) odo;
 
         String upit;
-        ResultSet rs;
+//        ResultSet rs;
 //        LinkedList listaStavki = new LinkedList();
         try {
             upit = "FROM StavkaNarudzbenice where " + odo.vratiUslovZaNadjiSlog();
@@ -350,7 +353,7 @@ public class DatabaseBroker {
 //            listaStavki = (new StavkaNarudzbenice()).vratiSveOvogTipa(rs);
             n.setStavkeNarudzbenice(listaStavki);
         } catch (Exception esql) {
-            System.out.println("Greska prilikom iscitavanja stavki narudzbenice: "+esql);
+            esql.printStackTrace();
             return 8;
         }
         return 0;
@@ -360,17 +363,19 @@ public class DatabaseBroker {
         Racun r = (Racun) odo;
 
         String upit;
-        ResultSet rs;
-        LinkedList listaStavki = new LinkedList();
+//        ResultSet rs;
+//        LinkedList listaStavki = new LinkedList();
         try {
-            upit = "SELECT * FROM stavkaRacuna where " + odo.vratiUslovZaNadjiSlog();
+            upit = "FROM StavkaRacuna where racun." + odo.vratiUslovZaNadjiSlog();
             System.out.println(upit);
-            st = con.createStatement();
-            rs = st.executeQuery(upit);
-            listaStavki = (new StavkaRacuna()).vratiSveOvogTipa(rs);
+//            st = con.createStatement();
+//            rs = st.executeQuery(upit);
+            Query query = session.createQuery(upit);
+            List<StavkaNarudzbenice> listaStavki = query.list();
+//            listaStavki = (new StavkaRacuna()).vratiSveOvogTipa(rs);
             r.setStavkeRacuna(listaStavki);
-        } catch (SQLException esql) {
-            System.out.println("Greska prilikom iscitavanja stavki racuna: "+esql);
+        } catch (Exception esql) {
+            esql.printStackTrace();
             return 9;
         }
         return 0;

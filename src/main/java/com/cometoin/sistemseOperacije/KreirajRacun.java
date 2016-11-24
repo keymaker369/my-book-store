@@ -31,7 +31,7 @@ public class KreirajRacun extends OpstaSistemskaOperacija {
         if (!proveriUspesnost()) {
             return signal;
         }
-        ((Racun) odo).setSifra(((Racun) odo).getSifra() + 1);
+//        ((Racun) odo).setSifra(((Racun) odo).getSifra() + 1);
 
 
         signal = DatabaseBroker.getInstance().pamtiSlog(odo);

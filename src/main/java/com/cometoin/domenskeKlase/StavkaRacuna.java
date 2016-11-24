@@ -26,7 +26,7 @@ public class StavkaRacuna implements OpstiDomenskiObjekat,Serializable {
     private double cenaProizvoda;
 
     @ManyToOne
-    @JoinColumn(name = "sifraRacuna", insertable = false, updatable = false)
+    @JoinColumn(name = "sifra", insertable = false, updatable = false)
     private Racun racun;
 
     public StavkaRacuna() {

@@ -4,6 +4,8 @@
  */
 package com.cometoin.domenskeKlase;
 
+import org.hibernate.annotations.Type;
+
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,11 +21,12 @@ public class Racun implements OpstiDomenskiObjekat,Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIFRARACUNA_SEKVENCA")
-    @SequenceGenerator(name = "SIFRARACUNA_SEKVENCA", sequenceName = "SIFRACUNA_SEKVENCA", allocationSize = 1, initialValue = 1)
-    @Column(name= "SIFRARACUNA")
+    @SequenceGenerator(name = "SIFRARACUNA_SEKVENCA", sequenceName = "SIFRARACUNA_SEKVENCA", allocationSize = 1, initialValue = 1)
+    @Column(name= "SIFRA")
     private int sifra;
     private String datum;
     private double ukupnaVrednost;
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean obradjen;
     private String nazivPartnera;
     @OneToMany(mappedBy = "racun")
@@ -151,7 +154,7 @@ public class Racun implements OpstiDomenskiObjekat,Serializable {
 
     public String postaviVrednostiAtributaZaUpdate() {
         return "datum = '" + datum + "', ukupnaVrednost  = " + ukupnaVrednost
-                + ", obradjen  = '" + obradjen + "', nazivPartnera = '" + nazivPartnera + "'";
+                + ", obradjen  = " + (obradjen ? "1" : "0") + ", nazivPartnera = '" + nazivPartnera + "'";
     }
 
     public String vratiUslovZaNadjiSlog() {
@@ -172,6 +175,13 @@ public class Racun implements OpstiDomenskiObjekat,Serializable {
 	
     @Override
 	public boolean napuniSve(OpstiDomenskiObjekat odoIzBaze) {
-		throw new RuntimeException("nije implementirano");
+		Racun from = (Racun) odoIzBaze;
+        this.setSifra(((Racun) from).getSifra());
+        this.setDatum(((Racun) from).getDatum());
+        this.setNazivPartnera(((Racun) from).getNazivPartnera());
+        this.setObradjen(((Racun) from).isObradjen());
+        this.setStavkeRacuna(((Racun) from).getStavkeRacuna());
+        this.setUkupnaVrednost(((Racun) from).getUkupnaVrednost());
+        return true;
 	}
 }
