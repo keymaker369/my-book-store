@@ -1,16 +1,14 @@
 package com.cometoin.temp;
 
-import com.ui4j.api.browser.BrowserEngine;
-import com.ui4j.api.browser.BrowserFactory;
-import com.ui4j.api.browser.Page;
-import com.ui4j.api.dom.Document;
-import com.ui4j.api.dom.Element;
+import io.webfolder.ui4j.api.browser.BrowserEngine;
+import io.webfolder.ui4j.api.browser.BrowserFactory;
+import io.webfolder.ui4j.api.browser.Page;
+import io.webfolder.ui4j.api.dom.Document;
+import io.webfolder.ui4j.api.dom.Element;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class InsGP {
@@ -25,8 +23,8 @@ public class InsGP {
         this.browser = browser;
     }
 
-    public void downloadFile(String insLink, String outputFilePath, BrowserEngine browser) throws Exception {
-
+    public void downloadFile(String insLink, String outputFilePath) throws Exception {
+        BrowserEngine browser = BrowserFactory.getWebKit();
 
         String fileId = insLink.split("/")[4];
 
@@ -65,13 +63,6 @@ public class InsGP {
             }
 
         }
-
     }
 
-    public void downloadFile(String insLink, String outputFilePath) throws Exception {
-        if(browser == null) {
-            throw new NullPointerException("Browser can't be null");
-        }
-        downloadFile(insLink, outputFilePath, this.browser);
-    }
 }
